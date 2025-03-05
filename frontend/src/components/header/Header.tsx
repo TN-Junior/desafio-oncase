@@ -1,8 +1,8 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
-
 
 const schema = yup.object().shape({
   firstName: yup.string().required("First name is required").max(30, "Max 30 characters"),
@@ -12,10 +12,9 @@ const schema = yup.object().shape({
     .trim()
     .required("Participation is required")
     .matches(/^\d+$/, "Participation must be a number")
-    .test("min", "Minimum value is 1", value => Number(value) >= 1)
-    .test("max", "Maximum value is 100", value => Number(value) <= 100),
+    .test("min", "Minimum value is 1", (value) => Number(value) >= 1)
+    .test("max", "Maximum value is 100", (value) => Number(value) <= 100),
 });
-
 
 type FormData = {
   firstName: string;
@@ -24,6 +23,8 @@ type FormData = {
 };
 
 const Header = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  
   const {
     register,
     handleSubmit,
@@ -33,6 +34,7 @@ const Header = () => {
   });
 
   const onSubmit = async (data: FormData) => {
+    setIsLoading(true);
     try {
       const response = await axios.post("https://backend-1-9yab.onrender.com/participants", {
         firstName: data.firstName,
@@ -47,9 +49,10 @@ const Header = () => {
       } else {
         console.error("An unexpected error occurred:", error);
       }
+    } finally {
+      setIsLoading(false);
     }
   };
-  
 
   return (
     <div className="bg-[#00BFEA] py-6 flex justify-center w-full">
@@ -95,9 +98,36 @@ const Header = () => {
 
         <button
           type="submit"
-          className="bg-transparent text-white font-bold py-2 px-8 rounded border border-white hover:bg-white hover:text-[#00BFEA] text-base"
+          className="bg-transparent text-white font-bold py-2 px-8 rounded border border-white hover:bg-white hover:text-[#00BFEA] text-base flex items-center justify-center"
+          disabled={isLoading}
         >
-          SEND
+          {isLoading ? (
+            <>
+              <svg
+                className="animate-spin h-5 w-5 mr-2 text-white"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 018 8H4z"
+                ></path>
+              </svg>
+              Loading...
+            </>
+          ) : (
+            "SEND"
+          )}
         </button>
       </form>
     </div>
@@ -105,4 +135,3 @@ const Header = () => {
 };
 
 export default Header;
-
