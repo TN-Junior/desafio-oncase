@@ -55,7 +55,7 @@ const ParticipationChart = ({ participants }: { participants: Participant[] }) =
               layout="vertical"
               align="center"
               verticalAlign="middle"
-              wrapperStyle={{ right: "-5px", position: "absolute" }}
+              wrapperStyle={{ right: "-45px", position: "absolute" }}
               content={({ payload }) => (
                 <ul className="list-none m-0 p-0 space-y-4">
                   {payload?.map((entry, index) => (
@@ -96,4 +96,3 @@ const ParticipationChart = ({ participants }: { participants: Participant[] }) =
 };
 
 export default ParticipationChart;
-
