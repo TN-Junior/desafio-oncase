@@ -71,9 +71,6 @@ Segurança: O backend utiliza CORS para controlar as origens permitidas, protege
 
 
  
-## Interface
- 
-  ![image](https://github.com/user-attachments/assets/3f9ce7d5-9116-4e3d-8641-d128304a1415)
 
 
 
