@@ -107,8 +107,8 @@ npm run dev
 Exemplo de requisição `POST /participants`:
 ```json
 {
-  "first_name": "Pedro",
-  "last_name": "Henrique",
+  "firstName": "Pedro",
+  "lastName": "Henrique",
   "participation": 85
 }
 ```
