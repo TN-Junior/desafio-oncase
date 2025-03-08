@@ -69,6 +69,64 @@ Performance: A performance é otimizada com uso de hooks do React como useCallba
 
 Segurança: O backend utiliza CORS para controlar as origens permitidas, protegendo as rotas da aplicação. Além disso, a configuração do banco de dados garante segurança nas credenciais e na comunicação via ambiente.
 
+## Executando o proeto
+
+### 1️⃣ Clonar o repositório
+```bash
+git clone https://github.com/TN-Junior/desafio-oncase.git
+cd desafio-oncase
+```
+
+### 2️⃣ Configurar o Backend
+```bash
+cd backend
+python3 -m venv venv
+source venv/bin/activate  # (Linux/Mac) ou venv\Scripts\activate (Windows)
+pip install -r requirements.txt
+python run.py
+```
+
+### 3️⃣ Configurar o Frontend
+```bash
+cd ../frontend
+npm install
+npm run dev
+```
+
+---
+
+## 📉 Endpoints da API
+
+| Método | Endpoint               | Descrição                         |
+|--------|------------------------|-----------------------------------|
+| `GET`  | `/participants`        | Retorna todos os participantes   |
+| `POST` | `/participants`        | Adiciona um novo participante    |
+| `PUT`  | `/participants/{id}`   | Atualiza os dados de um usuário  |
+| `DELETE` | `/participants/{id}` | Remove um participante pelo ID   |
+
+Exemplo de requisição `POST /participants`:
+```json
+{
+  "first_name": "Pedro",
+  "last_name": "Henrique",
+  "participation": 85
+}
+```
+
+---
+
+## 📝 Swagger
+
+A API está documentada usando **Swagger**. Para acessar a interface, rode o backend e visite:
+
+👉 [Documentação Swagger](https://backend-1-9yab.onrender.com/apidocs/) no navegador.
+
+---
+
+## Conclusão
+
+Este projeto foi desenvolvido seguindo **boas práticas de desenvolvimento Full Stack**, utilizando React, Flask e MySQL. A estrutura modular facilita a escalabilidade, manutenção e garante **alta performance** na manipulação dos dados. 🚀
+
 
  
 
