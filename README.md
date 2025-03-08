@@ -69,7 +69,7 @@ Performance: A performance é otimizada com uso de hooks do React como useCallba
 
 Segurança: O backend utiliza CORS para controlar as origens permitidas, protegendo as rotas da aplicação. Além disso, a configuração do banco de dados garante segurança nas credenciais e na comunicação via ambiente.
 
-## Executando o proeto
+## Executando o projeto
 
 ### 1️⃣ Clonar o repositório
 ```bash
