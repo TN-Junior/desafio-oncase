@@ -18,3 +18,4 @@ class Participant(db.Model):
 
     def __repr__(self):
         return f'<Participant {self.first_name} {self.last_name}>'
+
