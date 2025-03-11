@@ -111,3 +111,4 @@ def reset_participants():
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": f"Error resetting participants: {str(e)}"}), 500
+        
