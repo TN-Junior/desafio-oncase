@@ -6,6 +6,7 @@ const DataTable = ({ refreshParticipants }: { refreshParticipants: () => void })
   const [data, setData] = useState<Participant[]>([]);
   const [selectedParticipant, setSelectedParticipant] = useState<Participant | null>(null);
   const [shouldRefresh, setShouldRefresh] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const refreshData = useCallback(async () => {
     try {
@@ -26,6 +27,7 @@ const DataTable = ({ refreshParticipants }: { refreshParticipants: () => void })
 
   const handleRowClick = (participant: Participant) => {
     setSelectedParticipant(participant);
+    setErrorMessage(""); // Limpa mensagem de erro ao abrir a edição
   };
 
   const handleDelete = async (id: number) => {
@@ -40,9 +42,16 @@ const DataTable = ({ refreshParticipants }: { refreshParticipants: () => void })
   const handleEdit = async () => {
     if (!selectedParticipant) return;
 
+    // Validação: First Name e Last Name não podem estar vazios
+    if (!selectedParticipant.firstName.trim() || !selectedParticipant.lastName.trim()) {
+      setErrorMessage("O nome e o sobrenome não podem ficar vazios.");
+      return;
+    }
+
     try {
       await updateParticipant(selectedParticipant);
       setShouldRefresh(true);
+      setSelectedParticipant(null); // Fecha o modal após salvar
     } catch (error) {
       console.error("Erro ao atualizar participante:", error);
     }
@@ -75,6 +84,9 @@ const DataTable = ({ refreshParticipants }: { refreshParticipants: () => void })
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-4 rounded shadow-lg w-96">
             <h2 className="text-lg font-bold">Editar Participante</h2>
+            
+            {errorMessage && <p className="text-red-500 text-sm mb-2">{errorMessage}</p>}
+
             <input
               type="text"
               value={selectedParticipant.firstName}
@@ -92,8 +104,8 @@ const DataTable = ({ refreshParticipants }: { refreshParticipants: () => void })
               value={selectedParticipant.participation}
               onChange={(e) => {
                 let value = Number(e.target.value);
-                if (value > 100) value = 100; // impede que ultrapasse 100% no campo de participação
-                if (value < 0) value = 0; // impede valores negativos
+                if (value > 100) value = 100;
+                if (value < 0) value = 0;
                 setSelectedParticipant({ ...selectedParticipant, participation: value });
               }}
               className="border p-2 w-full mt-2"
