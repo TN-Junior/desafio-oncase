@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Participant } from "../types/participant";
 
-const API_URL = "https://backend-1-9yab.onrender.com/participants";
+const API_URL = "http://127.0.0.1:5000/participants";
 
 export const fetchParticipants = async (): Promise<Participant[]> => {
   try {
@@ -10,6 +10,14 @@ export const fetchParticipants = async (): Promise<Participant[]> => {
   } catch (error) {
     console.error("Error fetching data:", error);
     return [];
+  }
+};
+
+export const createParticipant = async (participant: Omit<Participant, "id">): Promise<void> => {
+  try {
+    await axios.post(API_URL, participant);
+  } catch (error) {
+    console.error("Error creating participant:", error);
   }
 };
 
@@ -28,4 +36,3 @@ export const deleteParticipant = async (id: number): Promise<void> => {
     console.error("Error deleting participant:", error);
   }
 };
-

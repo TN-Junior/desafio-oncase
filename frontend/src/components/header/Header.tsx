@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import axios from "axios";
+import { createParticipant } from "../../services/api";
 
 const schema = yup.object().shape({
   firstName: yup.string().required("First name is required").max(30, "Max 30 characters"),
@@ -37,14 +37,14 @@ const Header = ({ refreshParticipants }: { refreshParticipants: () => void }) =>
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
     try {
-      await axios.post("https://backend-1-9yab.onrender.com/participants", {
+      await createParticipant({
         firstName: data.firstName,
         lastName: data.lastName,
         participation: parseInt(data.participation, 10),
       });
 
-      refreshParticipants(); // ✅ Atualiza sem recarregar a página
-      reset(); // ✅ Limpa o formulário após o envio
+      refreshParticipants(); // Atualiza sem recarregar a página
+      reset(); // Limpa o formulário após o envio
     } catch (error) {
       console.error("Erro ao enviar formulário:", error);
     } finally {
