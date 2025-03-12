@@ -22,12 +22,13 @@ type FormData = {
   participation: string;
 };
 
-const Header = () => {
+const Header = ({ refreshParticipants }: { refreshParticipants: () => void }) => {
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
@@ -36,19 +37,16 @@ const Header = () => {
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
     try {
-      const response = await axios.post("https://backend-1-9yab.onrender.com/participants", {
+      await axios.post("https://backend-1-9yab.onrender.com/participants", {
         firstName: data.firstName,
         lastName: data.lastName,
         participation: parseInt(data.participation, 10),
       });
-      console.log("Success:", response.data);
-      window.location.reload();
+
+      refreshParticipants(); // ✅ Atualiza sem recarregar a página
+      reset(); // ✅ Limpa o formulário após o envio
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error("Error submitting form:", error.response?.data || error.message);
-      } else {
-        console.error("An unexpected error occurred:", error);
-      }
+      console.error("Erro ao enviar formulário:", error);
     } finally {
       setIsLoading(false);
     }
