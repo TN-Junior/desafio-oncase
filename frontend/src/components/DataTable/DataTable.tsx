@@ -34,6 +34,7 @@ const DataTable = ({ refreshParticipants }: { refreshParticipants: () => void })
     try {
       await deleteParticipant(id);
       setShouldRefresh(true);
+      setSelectedParticipant(null); // ✅ Fecha o modal após excluir
     } catch (error) {
       console.error("Erro ao deletar participante:", error);
     }
@@ -51,7 +52,7 @@ const DataTable = ({ refreshParticipants }: { refreshParticipants: () => void })
     try {
       await updateParticipant(selectedParticipant);
       setShouldRefresh(true);
-      setSelectedParticipant(null); // Fecha o modal após salvar
+      setSelectedParticipant(null); // ✅ Fecha o modal após salvar
     } catch (error) {
       console.error("Erro ao atualizar participante:", error);
     }
